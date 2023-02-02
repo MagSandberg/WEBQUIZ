@@ -5,16 +5,29 @@ class Question {
     }
 }
 
-const questions = 
-[
-    new Question("Gillar Niklas kaffe?", true),
-    new Question("Är jorden platt?", false),
-    new Question("År programmering kul?", true),
-];
-
+const questions = [];
 const qList = document.querySelector('#questions');
+const scoreDisplay = document.querySelector('#score');
+let score = 0;
 
-for (const question of questions) {
+function startButtonClick(){
+    questions.splice(0, questions.length);
+
+    questions.push(
+    new Question("Gillar Niklas kaffe?", "True"),
+    new Question("Är jorden platt?", "False"),
+    new Question("År programmering kul?", "True"),
+    );
+
+    while (qList.childElementCount > 0) {
+        qList.children[0].remove();
+    }
+
+    displayQuestions();
+}
+
+function displayQuestions(){
+    for (const question of questions) {
     //Skapa element
     const card = document.createElement('li');
     const cardHeader = document.createElement('div');
@@ -40,26 +53,33 @@ for (const question of questions) {
     falseButton.innerText = "False";
 
     //Sätta upp event på element
+    trueButton.onclick = () => {
+        guessButtonClick(question, cardBody, falseButton, trueButton, "True");
+    };
 
-
+    falseButton.onclick = () => {
+        guessButtonClick(question, cardBody, falseButton, trueButton, "False");
+    };
+    
     //Lägg till element i DOM
     cardBody.append(cardText);
     cardFooter.append(trueButton, falseButton);
     card.append(cardHeader, cardBody, cardFooter);
-    qList.append(card)
+    qList.append(card);
+    }
 }
 
-// const html = 
-//     `
-//     <div class="card border-0">
-//         <div class="card-header bg-info fw-bold">1</div>
-//         <div class="card-body bg-dark text-warning">
-//             <h4 class="card-text">${question.statement}</h4>
-//         </div>
-//         <div class="card-footer bg-info">
-//             <button class="btn btn-success">True</button>
-//             <button class="btn btn-danger">False</button>
-//         </div>
-//     </div>
-//     `;
-//     qList.innerHTML += html;
+function guessButtonClick(question, cardBody, falseButton, trueButton, guess){
+        if(question.correctAnswer === guess) {
+            score++;
+            scoreDisplay.innerText = score
+
+            cardBody.classList.remove("bg-dark", "text-warning");
+            cardBody.classList.add("bg-success", "text-light");
+        } else {
+            cardBody.classList.remove("bg-dark", "text-warning");
+            cardBody.classList.add("bg-danger", "text-light");
+        }
+        trueButton.disabled = true;
+        falseButton.disabled = true;
+}

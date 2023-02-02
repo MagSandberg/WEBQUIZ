@@ -37,7 +37,7 @@
         <div class="container-fluid mt-4">
             <div class="row text-center">
                 <div class="col-3">
-                    <button type="button" class="btn btn-dark">Start!</button>
+                    <button onclick="startButtonClick()" type="button" class="btn btn-lg btn-dark text-info fw-bold">Start!</button>
                 </div>
                 <div class="col-6">
                     <ul id="questions" class="list-group">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-3">
                     <h2 class="text-dark">Score</h2>
-                    <h1 class="fw-bold text-info text-bg-dark">1</h1>
+                    <h1 id="score" class="fw-bold text-info text-bg-dark">0</h1>
                 </div>
             </div>
         </div>
